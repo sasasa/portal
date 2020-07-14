@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('places', 'PlaceController');
-Route::get('p/{prefecture?}', 'PlaceController@districts');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/p', 301);
+
+Route::get('p', 'PlaceController@index');
+Route::get('p/{prefecture}', 'PlaceController@districts');
+Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
+Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop');
+

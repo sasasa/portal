@@ -10,7 +10,9 @@
   @foreach ($places as $place)
     <tr>
       <td>{{ $place->prefecture }}</td>
-      <td>{{ $place->district }}</td>
+      <td>
+        <a href="/p/{{ $place->prefecture }}/{{ $place->district }}">{{ $place->district }}</a>
+      </td>
     </tr>
   @endforeach
 </table>

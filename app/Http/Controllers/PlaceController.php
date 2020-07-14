@@ -26,6 +26,25 @@ class PlaceController extends Controller
         ]);
     }
 
+    public function shops($prefecture, $district)
+    {
+        return view('place.shops', [
+            'prefecture' => $prefecture,
+            'district' => $district,
+            'shops' => \App\Shop::where('location', 'like', $prefecture. $district. '%')->paginate(10)
+        ]);
+    }
+
+    public function shop($prefecture, $district, int $id)
+    {
+        return view('place.shop', [
+            'prefecture' => $prefecture,
+            'district' => $district,
+            'shop' => \App\Shop::find($id)
+        ]);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *
