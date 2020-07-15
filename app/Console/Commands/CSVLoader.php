@@ -18,7 +18,7 @@ class CSVLoader extends Command
      *
      * @var string
      */
-    protected $description = 'CSV Loading...';
+    protected $description = '市区町村CSV Loading...';
 
     /**
      * Create a new command instance.
@@ -37,20 +37,6 @@ class CSVLoader extends Command
      */
     public function handle()
     {
-
-        // $row = 1;
-        // // ファイルが存在しているかチェックする
-        // if (($handle = fopen("KEN_ALL.CSV", "r")) !== FALSE) {
-        //     // 1行ずつfgetcsv()関数を使って読み込む
-        //     while (($data = fgetcsv($handle))) {
-        //         echo "${row}行目\n";
-        //         $row++;
-        //         foreach ($data as $value) {
-        //             echo "「${value}」\n";
-        //         }
-        //     }
-        //     fclose($handle);
-        // }
         setlocale(LC_CTYPE, "ja.UTF8");
         $fp = new \SplFileObject('KEN_ALL.CSV', 'rb');
         $fp->setFlags(

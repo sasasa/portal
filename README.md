@@ -8,7 +8,28 @@ php artisan make:model Place -m
 php artisan make:controller PlaceController --resource
 
 php artisan migrate
+php artisan migrate:refresh
 
+php artisan make:command ShopLoader
+php artisan csv:load
+php artisan shop:load
+php artisan make:model Shop -m
+
+
+php -r "copy('https://readouble.com/laravel/6.x/ja/install-ja-lang-files.php', 'install-ja-lang.php');"
+php -f install-ja-lang.php
+php -r "unlink('install-ja-lang.php');"
+
+
+npm install
+npm run dev
+
+
+
+composer require laravel/ui --dev
+php artisan ui bootstrap4
+npm install
+npm run dev
 ```
 
 
