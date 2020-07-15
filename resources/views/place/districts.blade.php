@@ -1,7 +1,7 @@
-@extends('layouts.base')
+@extends('layouts.app')
 @section('title', $prefecture)
 
-@section('main')
+@section('content')
 <table class="table">
   <tr>
     <th>都道府県</th>
