@@ -23,7 +23,7 @@
   </tr>
 </table>
 <div id="my_map" style="width: 600px; height: 600px"></div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3qcyVunBTTj3KRyGA1LLQk7VG9PLEWn8&callback=initMapWithAddress" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_KEY', 'apikey')}}&callback=initMapWithAddress" async defer></script>
 <script>
   var _my_address = '{{$shop->location}}';
   function initMapWithAddress() {
