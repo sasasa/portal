@@ -38,15 +38,15 @@
           'address': _my_address,
           'region': 'jp'
         },
-        function(result, status){
+        function(result, status) {
           if(status == google.maps.GeocoderStatus.OK) {
               var latlng = result[0].geometry.location;
               my_google_map.setCenter(latlng);
               var marker = new google.maps.Marker({
-                position:latlng,
-                map:my_google_map,
-                title:latlng.toString(),
-                draggable:false
+                position: latlng,
+                map: my_google_map,
+                title: latlng.toString(),
+                draggable: false
               });
               google.maps.event.addListener(marker, 'dragend', function(event){
                   marker.setTitle(event.latLng.toString());
@@ -54,7 +54,7 @@
           }
         }
       );
-    }
+  }
 </script>
 
 @endsection
