@@ -10,10 +10,43 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__ja.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCx4xti1IJiygDAqJHi7GvJ-toIHUMg5Eg",
+        authDomain: "helpful-mode-272807.firebaseapp.com",
+        databaseURL: "https://helpful-mode-272807.firebaseio.com",
+        projectId: "helpful-mode-272807",
+        storageBucket: "helpful-mode-272807.appspot.com",
+        messagingSenderId: "854630290944",
+        appId: "1:854630290944:web:a1d5953a575750a07b6ae5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    //----------------------------------------------
+    // ドメインとポート番号
+    //----------------------------------------------
+    let domain = document.domain;
+    let port   = (domain === 'localhost')?  5000:80;
+    </script>
 </head>
 <body>
     <div id="app">
@@ -34,6 +67,11 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                        </a>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -85,5 +123,7 @@
             @yield('content')
         </main>
     </div>
+
+
 </body>
 </html>

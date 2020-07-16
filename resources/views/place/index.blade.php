@@ -86,10 +86,6 @@
 </div>
 
 
-
-
-
-
 <table class="table">
   <tr>
     <th>都道府県</th>
@@ -103,4 +99,67 @@
   @endforeach
 </table>
 {{ $places->links() }}
+
+
+<h2>FireBase認証</h2>
+<div>メールアドレス<input id="mailAddress" type="mailAddress" required/></div>
+<div>パスワード<input id="password" type="password" required/></div>
+<button id="login">ログイン</button>
+<button id="register">新規登録</button>
+<script>
+//新規登録処理
+var register = document.getElementById('register');
+register.addEventListener('click', function(e) {
+  var mailAddress = document.getElementById('mailAddress').value;
+  var password = document.getElementById('password').value;
+  firebase.auth().createUserWithEmailAndPassword(mailAddress, password)
+  .catch(function(error) {
+    alert('登録できません（' + error.message + '）');
+  });
+  // document.getElementById('mailAddress').value = '';
+  // document.getElementById('password').value = '';
+});
+
+
+//ログイン処理
+var login = document.getElementById('login');
+login.addEventListener('click', function(e) {
+  var mailAddress = document.getElementById('mailAddress').value;
+  var password = document.getElementById('password').value;
+
+  firebase.auth().signInWithEmailAndPassword(mailAddress, password)
+  .catch(function(error) {
+    alert('ログインできません（' + error.message + '）');
+  });
+});
+</script>
+
+
+<div id="firebaseui-auth-container"></div>
+<script>
+    //----------------------------------------------
+    // Firebase UIの設定
+    //----------------------------------------------
+    var uiConfig = {
+        // ログイン完了時のリダイレクト先
+        signInSuccessUrl: '/home',
+
+        // 利用する認証機能
+        signInOptions: [
+          firebase.auth.EmailAuthProvider.PROVIDER_ID  //メール認証
+        ],
+
+        // 利用規約のURL(任意で設定)
+        tosUrl: 'http://localhost/p',
+        // プライバシーポリシーのURL(任意で設定)
+        privacyPolicyUrl: 'http://localhost/p'
+      };
+
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start('#firebaseui-auth-container', uiConfig);
+</script>
+
+
+
+
 @endsection
