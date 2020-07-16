@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    #gurd {
+        height: 100vh;
+        width: 100vw;
+        z-index: 100;
+        background-color: white;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
+<div id="gurd"></div>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -38,6 +51,8 @@ firebase.auth().onAuthStateChanged( (user) => {
     //------------------------------------
     if(user === null){
         alert('Not Login ログインが必要な画面です');
+        document.body.innerHTML = "";
+        window.location.href = '/p';
         return(false);
     }
 
@@ -45,6 +60,7 @@ firebase.auth().onAuthStateChanged( (user) => {
     // メアド確認済み
     //------------------------------------
     if( user.emailVerified ) {
+        document.getElementById('gurd').remove()
         alert(`Login Complete! ${user.displayName}さんがログインしました${user.uid}`);
     }
     //------------------------------------
@@ -54,9 +70,13 @@ firebase.auth().onAuthStateChanged( (user) => {
         user.sendEmailVerification()
         .then(()=>{
             alert(`Send confirm mail ${user.email}宛に確認メールを送信しました`);
+            document.body.innerHTML = "";
+            window.location.href = '/p';
         })
         .catch((error)=>{
             alert(`[Error] Can not send mail ${user.email}宛に確認メールを送信できませんでした: ${error}`);
+            document.body.innerHTML = "";
+            window.location.href = '/p';
         });
     }
 });
