@@ -21,7 +21,7 @@ Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
 Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop');
 
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 #Route::view('register_admin', 'auth.register_admin');
 Route::view('register_shop', 'auth.register_shop');
 Route::post('register_shop', 'Auth\RegisterShopController@register')->name('register_shop');
@@ -35,17 +35,17 @@ Route::post('login_admin', 'Auth\LoginAdminController@login')->name('login_admin
 
 
 // ユーザのみ
-Route::group(['middleware' => ['auth', 'can:user-only']], function () {
+Route::group(['middleware' => ['verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
 });
 
 // 店舗のみ
-Route::group(['middleware' => ['auth', 'can:shop-only']], function () {
+Route::group(['middleware' => ['verified', 'can:shop-only']], function () {
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
 });
 
 // 管理者のみ
-Route::group(['middleware' => ['auth', 'can:admin-only']], function () {
+Route::group(['middleware' => ['verified', 'can:admin-only']], function () {
   Route::get('home_admin', 'HomeAdminController@index')->name('home_admin');
 });
 
