@@ -1,7 +1,7 @@
-@extends('layouts.base')
+@extends('layouts.app')
 @section('title', "Place一覧")
 
-@section('main')
+@section('content')
 <div>
   <h2>北海道・東北</h2>
 <ul>

@@ -1,7 +1,7 @@
-@extends('layouts.base')
+@extends('layouts.app')
 @section('title', $prefecture. $district)
 
-@section('main')
+@section('content')
 <table class="table">
   <tr>
     <th>{{__('validation.attributes.shop_name')}}</th>
