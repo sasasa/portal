@@ -39,6 +39,11 @@ php artisan make:seeder UsersTableSeeder
 php artisan db:seed --class=UsersTableSeeder
 
 php artisan route:list
+
+php artisan make:model Evaluation -m
+php artisan make:controller EvaluationsController --resource
+php artisan make:controller ShopsController --resource
+
 ```
 
 

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-class PlaceController extends Controller
+
+class ShopsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,35 +13,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        return view('place.index', [
-            'places' => \App\Place::paginate(10)
-        ]);
-    }
-
-    public function districts($prefecture)
-    {
-        return view('place.districts', [
-            'prefecture' => $prefecture,
-            'places' => \App\Place::where('prefecture', $prefecture)->paginate(10)
-        ]);
-    }
-
-    public function shops($prefecture, $district)
-    {
-        return view('place.shops', [
-            'prefecture' => $prefecture,
-            'district' => $district,
-            'shops' => \App\Shop::where('location', 'like', $prefecture. $district. '%')->paginate(10)
-        ]);
-    }
-
-    public function shop($prefecture, $district, int $id)
-    {
-        return view('place.shop', [
-            'prefecture' => $prefecture,
-            'district' => $district,
-            'shop' => \App\Shop::find($id)
-        ]);
+        //
     }
 
     /**
@@ -71,9 +43,11 @@ class PlaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(\App\Shop $shop)
     {
-        //
+        return view('shops.show', [
+            'shop' => $shop
+        ]);
     }
 
     /**

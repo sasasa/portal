@@ -153,6 +153,8 @@ return [
         'url' => 'URL',
         'description' => '詳細',
 
+        'word_of_mouth' => '口コミ',
+
         "name" => "名前",
         "password" => "パスワード",
         "password_confirmation" => "パスワード(確認用)",
