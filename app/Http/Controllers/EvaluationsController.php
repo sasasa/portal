@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-class PlaceController extends Controller
+
+class EvaluationsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,35 +14,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        return view('place.index', [
-            'places' => \App\Place::paginate(10)
-        ]);
-    }
-
-    public function districts($prefecture)
-    {
-        return view('place.districts', [
-            'prefecture' => $prefecture,
-            'places' => \App\Place::where('prefecture', $prefecture)->paginate(10)
-        ]);
-    }
-
-    public function shops($prefecture, $district)
-    {
-        return view('place.shops', [
-            'prefecture' => $prefecture,
-            'district' => $district,
-            'shops' => \App\Shop::where('location', 'like', $prefecture. $district. '%')->paginate(10)
-        ]);
-    }
-
-    public function shop($prefecture, $district, int $id)
-    {
-        return view('place.shop', [
-            'prefecture' => $prefecture,
-            'district' => $district,
-            'shop' => \App\Shop::find($id)
-        ]);
+        //
     }
 
     /**
@@ -60,9 +33,25 @@ class PlaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $this->validate($req, \App\Evaluation::$rules);
+        $evaluation = new \App\Evaluation();
+        $evaluation->fill($req->all());
+        $evaluation->user_id = Auth::user()->id;
+        $evaluation->save();
+
+        if ( $req->prefecture ) {
+            return redirect(route('shop', [
+                'prefecture' => $req->prefecture,
+                'district' => $req->district,
+                'id' => $req->shop_id
+            ]));
+        } else {
+            return redirect(route('shops.show', [
+                'shop' => $req->shop_id
+            ]));
+        }
     }
 
     /**
@@ -105,8 +94,20 @@ class PlaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $req, \App\Evaluation $evaluation)
     {
-        //
+        $evaluation->delete();
+
+        if ( $req->prefecture ) {
+            return redirect(route('shop', [
+                'prefecture' => $req->prefecture,
+                'district' => $req->district,
+                'id' => $evaluation->shop_id
+            ]));
+        } else {
+            return redirect(route('shops.show', [
+                'shop' => $evaluation->shop_id
+            ]));
+        }
     }
 }

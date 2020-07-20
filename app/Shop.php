@@ -14,4 +14,9 @@ class Shop extends Model
         'url',
         'description',
     ];
+
+    public function evaluations()
+    {
+        return $this->hasMany('App\Evaluation');
+    }
 }

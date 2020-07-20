@@ -18,8 +18,8 @@ Route::redirect('/', '/p', 301);
 Route::get('p', 'PlaceController@index');
 Route::get('p/{prefecture}', 'PlaceController@districts');
 Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
-Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop');
-
+Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop');
+Route::resource('shops', 'ShopsController');
 
 Auth::routes(['verify' => true]);
 #Route::view('register_admin', 'auth.register_admin');
@@ -35,17 +35,18 @@ Route::post('login_admin', 'Auth\LoginAdminController@login')->name('login_admin
 
 
 // ユーザのみ
-Route::group(['middleware' => ['verified']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
+  Route::resource('evaluations', 'EvaluationsController');
 });
 
 // 店舗のみ
-Route::group(['middleware' => ['verified', 'can:shop-only']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
 });
 
 // 管理者のみ
-Route::group(['middleware' => ['verified', 'can:admin-only']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function () {
   Route::get('home_admin', 'HomeAdminController@index')->name('home_admin');
 });
 

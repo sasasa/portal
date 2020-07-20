@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $prefecture. $district. 'の'. $shop->shop_name)
+@section('title', $shop->shop_name)
 
 @section('content')
 <table class="table">
@@ -63,28 +63,24 @@
   }
 </script>
 <div class="mt-5">
-<ul>
-@forelse ($shop->evaluations as $evaluation)
-  <li>{{$evaluation->word_of_mouth}}
-  @if (Auth::id() == $evaluation->user_id)
-    <form action="/evaluations/{{$evaluation->id}}" method="post">
-      @csrf
-      @method('delete')
-      <input type="hidden" name="prefecture" value="{{$prefecture}}">
-      <input type="hidden" name="district" value="{{$district}}">
-      <input type="submit" value="削除する" class="btn btn-sm btn-danger">
-    </form>
-  @endif
-  </li>
-@empty
-  <li>口コミは存在しません。</li>
-@endforelse
-</ul>
+  <ul>
+    @forelse ($shop->evaluations as $evaluation)
+      <li>{{$evaluation->word_of_mouth}}
+      @if (Auth::id() == $evaluation->user_id)
+        <form action="/evaluations/{{$evaluation->id}}" method="post">
+          @csrf
+          @method('delete')
+          <input type="submit" value="削除する" class="btn btn-sm btn-danger">
+        </form>
+      @endif
+      </li>
+    @empty
+      <li>口コミは存在しません。</li>
+    @endforelse
+    </ul>
 </div>
 <form action="/evaluations" method="post" class="mt-5">
   @csrf
-  <input type="hidden" name="prefecture" value="{{$prefecture}}">
-  <input type="hidden" name="district" value="{{$district}}">
   <input type="hidden" name="shop_id" value="{{$shop->id}}">
   <div class="form-group">
     <label for="word_of_mouth">口コミ:</label>
