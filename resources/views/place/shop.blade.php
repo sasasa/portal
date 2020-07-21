@@ -29,6 +29,21 @@
     <th>{{__('validation.attributes.description')}}</th>
     <td>{{ $shop->description }}</td>
   </tr>
+  <tr>
+    <th>記事一覧</th>
+    <td>
+      <ul>
+      @forelse ($shop->blogs as $blog)
+          <li>
+            <a href="/shops/{{$shop->id}}/blogs/{{$blog->id}}">{{$blog->blog_title}}</a>
+          </li>
+      @empty
+          <li>ブログは存在しません。</li>
+      @endforelse
+      </ul>
+      <a href="/shops/{{$shop->id}}/blogs/create">記事を書く</a>
+    </td>
+  </tr>
 </table>
 <div id="my_map" style="width: 600px; height: 600px"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_KEY', 'apikey')}}&callback=initMapWithAddress" async defer></script>
@@ -88,7 +103,7 @@
   <input type="hidden" name="shop_id" value="{{$shop->id}}">
   <div class="form-group">
     <label for="word_of_mouth">口コミ:</label>
-    <textarea id="word_of_mouth" class="form-control @error('word_of_mouth') is-invalid @enderror" name="word_of_mouth"></textarea>
+    <textarea id="word_of_mouth" class="form-control @error('word_of_mouth') is-invalid @enderror" name="word_of_mouth">{{old('word_of_mouth')}}</textarea>
     @error('word_of_mouth')
     <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>

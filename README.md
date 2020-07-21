@@ -44,6 +44,10 @@ php artisan make:model Evaluation -m
 php artisan make:controller EvaluationsController --resource
 php artisan make:controller ShopsController --resource
 
+
+php artisan storage:link
+php artisan make:model Blog -m
+php artisan make:controller BlogsController --resource
 ```
 
 

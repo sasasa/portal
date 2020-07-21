@@ -12,6 +12,34 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// ユーザのみ
+Route::group(['middleware' => ['auth', 'verified']], function () {
+  Route::get('home', 'HomeController@index')->name('home');
+  Route::resource('evaluations', 'EvaluationsController');
+});
+
+// 店舗のみ
+Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
+  Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
+  
+  // Route::resource('shops.blogs', 'BlogsController');
+  Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
+  // Route::get('shops/{shop}/blogs/create', 'BlogsController@create');
+  // Route::post('shops/{shop}/blogs/', 'BlogsController@store');
+  // Route::get('shops/{shop}/blogs/{blog}/edit', 'BlogsController@edit');
+  // Route::patch('shops/{shop}/blogs/{blog}', 'BlogsController@update');
+  // Route::delete('shops/{shop}/blogs/{blog}', 'BlogsController@destroy');
+
+});
+
+// 管理者のみ
+Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function () {
+  Route::get('home_admin', 'HomeAdminController@index')->name('home_admin');
+});
+
+
+
+
 
 Route::redirect('/', '/p', 301);
 
@@ -20,6 +48,10 @@ Route::get('p/{prefecture}', 'PlaceController@districts');
 Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
 Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop');
 Route::resource('shops', 'ShopsController');
+
+Route::get('shops/{shop}/blogs/{blog}', 'BlogsController@show');
+
+
 
 Auth::routes(['verify' => true]);
 #Route::view('register_admin', 'auth.register_admin');
@@ -34,19 +66,5 @@ Route::post('login_admin', 'Auth\LoginAdminController@login')->name('login_admin
 
 
 
-// ユーザのみ
-Route::group(['middleware' => ['auth', 'verified']], function () {
-  Route::get('home', 'HomeController@index')->name('home');
-  Route::resource('evaluations', 'EvaluationsController');
-});
 
-// 店舗のみ
-Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
-  Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
-});
-
-// 管理者のみ
-Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function () {
-  Route::get('home_admin', 'HomeAdminController@index')->name('home_admin');
-});
 
