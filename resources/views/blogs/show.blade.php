@@ -9,7 +9,13 @@
   {{ $blog->blog_content }}
 </p>
 
-
+@if (Auth::id() == $blog->user_id)
+<form action="/shops/{{$shop->id}}/blogs/{{$blog->id}}" method="post">
+  @csrf
+  @method('delete')
+  <input type="submit" value="削除する" class="btn btn-sm btn-danger">
+</form>
+@endif
 
 @endsection
 

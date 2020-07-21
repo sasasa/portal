@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BlogsController extends Controller
 {
@@ -94,8 +95,10 @@ class BlogsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(\App\Shop $shop, \App\Blog $blog)
     {
-        //
+        Storage::disk('public')->delete($blog->blog_path);
+        $blog->delete();
+        return redirect('/shops/'. $shop->id);
     }
 }
