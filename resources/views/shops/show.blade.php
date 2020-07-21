@@ -29,6 +29,21 @@
     <th>{{__('validation.attributes.description')}}</th>
     <td>{{ $shop->description }}</td>
   </tr>
+  <tr>
+    <th>記事一覧</th>
+    <td>
+      <ul>
+        @forelse ($shop->blogs as $blog)
+            <li>
+              <a href="/shops/{{$shop->id}}/blogs/{{$blog->id}}">{{$blog->blog_title}}</a>
+            </li>
+        @empty
+            <li>ブログは存在しません。</li>
+        @endforelse
+      </ul>
+      <a href="/shops/{{$shop->id}}/blogs/create">記事を書く</a>
+    </td>
+  </tr>
 </table>
 <div id="my_map" style="width: 600px; height: 600px"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_KEY', 'apikey')}}&callback=initMapWithAddress" async defer></script>

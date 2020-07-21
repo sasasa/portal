@@ -19,4 +19,8 @@ class Shop extends Model
     {
         return $this->hasMany('App\Evaluation');
     }
+    public function blogs()
+    {
+        return $this->hasMany('App\Blog');
+    }
 }

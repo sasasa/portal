@@ -155,6 +155,11 @@ return [
 
         'word_of_mouth' => '口コミ',
 
+        'blog_title' => 'タイトル',
+        'blog_path' => '画像',
+        'upfile' => '画像',
+        'blog_content' => 'コンテンツ',
+
         "name" => "名前",
         "password" => "パスワード",
         "password_confirmation" => "パスワード(確認用)",
