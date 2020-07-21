@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopsController extends Controller
 {
@@ -56,9 +57,11 @@ class ShopsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(\App\Shop $shop)
     {
-        //
+        return view('shops.edit', [
+            'shop' => $shop
+        ]);
     }
 
     /**
@@ -68,9 +71,11 @@ class ShopsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, \App\Shop $shop)
     {
-        //
+        $this->validate($req, \App\Shop::$rules);
+        $shop->fill($req->all())->save();
+        return redirect('/shops/'. $shop->id);
     }
 
     /**
@@ -82,5 +87,24 @@ class ShopsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // get /shops/{shop}/connect
+    public function connect(\App\Shop $shop)
+    {
+        return view('shops.connect', [
+            'shop' => $shop,
+        ]);
+    }
+
+    // post /shops/{shop}/connect
+    public function linkage(Request $req, \App\Shop $shop)
+    {
+        $this->validate($req, [
+            'agreed' => 'accepted'
+        ]);
+        $shop->user_id = Auth::user()->id;
+        $shop->save();
+        return redirect('/shops/'. $shop->id);
     }
 }

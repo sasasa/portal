@@ -7,6 +7,12 @@
     <th>{{__('validation.attributes.shop_name')}}</th>
     <td>
       {{ $shop->shop_name }}
+      @if ( is_null($shop->user) )
+        <a href="/shops/{{$shop->id}}/linkage">オーナー様はこちら</a>
+      @endif
+      @if ( Auth::check() && $shop->user == Auth::user() )
+        <a href="/shops/{{$shop->id}}/edit">編集する</a>
+      @endif
     </td>
   </tr>
   <tr>

@@ -21,15 +21,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 // 店舗のみ
 Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
-  
-  // Route::resource('shops.blogs', 'BlogsController');
   Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
-  // Route::get('shops/{shop}/blogs/create', 'BlogsController@create');
-  // Route::post('shops/{shop}/blogs/', 'BlogsController@store');
-  // Route::get('shops/{shop}/blogs/{blog}/edit', 'BlogsController@edit');
-  // Route::patch('shops/{shop}/blogs/{blog}', 'BlogsController@update');
-  // Route::delete('shops/{shop}/blogs/{blog}', 'BlogsController@destroy');
-
+  Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
+  Route::get('/shops/{shop}/linkage', 'ShopsController@connect');
+  Route::post('/shops/{shop}/linkage', 'ShopsController@linkage');
+  
 });
 
 // 管理者のみ
@@ -47,7 +43,7 @@ Route::get('p', 'PlaceController@index');
 Route::get('p/{prefecture}', 'PlaceController@districts');
 Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
 Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop');
-Route::resource('shops', 'ShopsController');
+Route::resource('shops', 'ShopsController', ['only' => ['index', 'show']]);
 
 Route::get('shops/{shop}/blogs/{blog}', 'BlogsController@show');
 

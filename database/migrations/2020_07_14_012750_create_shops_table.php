@@ -22,11 +22,13 @@ class CreateShopsTable extends Migration
             // 電話番号 phone_number
             $table->string('phone_number');
             // メールアドレス shop_mail
-            $table->string('shop_mail');
+            $table->string('shop_mail')->nullable();
             // URL url
-            $table->text('url');
+            $table->text('url')->nullable();
             // 説明文 description
-            $table->text('description');
+            $table->text('description')->nullable();
+
+            $table->biginteger('user_id')->nullable()->index();
             $table->timestamps();
         });
     }
