@@ -14,7 +14,19 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <h2>現在の申請状況</h2>
+                    <ul>
+                        @forelse ($link_requests as $link_request)
+                            <li>
+                                <a href="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}">{{$link_request->shop->shop_name}}
+                                ({{$link_request->accept_flg ? '申請完了' : '申請中'}})
+                                </a>
+                                <a href="/link_requests/{{$link_request->id}}/linkage">紐づける</a>
+                            </li>
+                        @empty
+                            <li>現在、申請はありません。</li>
+                        @endforelse
+                    </ul>
                 </div>
             </div>
         </div>

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
   Route::resource('evaluations', 'EvaluationsController');
+  Route::resource('shops.link_requests', 'LinkRequestsController', ['except' => ['index']]);
+
 });
 
 // 店舗のみ
@@ -23,14 +25,15 @@ Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function (
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
   Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
   Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
-  Route::get('/shops/{shop}/linkage', 'ShopsController@connect');
-  Route::post('/shops/{shop}/linkage', 'ShopsController@linkage');
-  
+
 });
 
 // 管理者のみ
 Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function () {
   Route::get('home_admin', 'HomeAdminController@index')->name('home_admin');
+
+  Route::get('/link_requests/{link_request}/linkage', 'ShopsController@connect');
+  Route::post('/link_requests/{link_request}/linkage', 'ShopsController@linkage');
 });
 
 

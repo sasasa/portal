@@ -12,7 +12,7 @@ class Shop extends Model
         'phone_number' => 'required',
         'shop_mail' => 'nullable|email',
         'url' => 'nullable|url',
-        'description' => 'min:10',
+        'description' => 'nullable|min:10',
     ];
     protected $fillable = [
         'shop_name',
@@ -34,5 +34,9 @@ class Shop extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+    public function link_request()
+    {
+        return $this->hasOne('App\LinkRequest');
     }
 }

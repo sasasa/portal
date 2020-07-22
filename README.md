@@ -48,6 +48,12 @@ php artisan make:controller ShopsController --resource
 php artisan storage:link
 php artisan make:model Blog -m
 php artisan make:controller BlogsController --resource
+
+
+php artisan make:model LinkRequest -m
+php artisan make:controller LinkRequestsController --resource
+
+
 ```
 
 

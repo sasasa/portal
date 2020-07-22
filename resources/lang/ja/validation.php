@@ -160,6 +160,12 @@ return [
         'upfile' => '画像',
         'blog_content' => 'コンテンツ',
 
+        'request_name' => '名前（非公表です）',
+        'request_email' => '申請メルアド(非公表です)',
+        'request_tel' => '申請電話番号',
+        'request_address' => '申請住所',
+        'license_path' => '運転免許証もしくは健康保険証の画像',
+
         "name" => "名前",
         "password" => "パスワード",
         "password_confirmation" => "パスワード(確認用)",

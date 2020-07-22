@@ -73,9 +73,12 @@ class ShopsController extends Controller
      */
     public function update(Request $req, \App\Shop $shop)
     {
-        $this->validate($req, \App\Shop::$rules);
-        $shop->fill($req->all())->save();
-        return redirect('/shops/'. $shop->id);
+        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
+        if (Auth::user()->id == $shop->user_id) {
+            $this->validate($req, \App\Shop::$rules);
+            $shop->fill($req->all())->save();
+            return redirect('/shops/'. $shop->id);
+        }
     }
 
     /**
@@ -89,22 +92,35 @@ class ShopsController extends Controller
         //
     }
 
-    // get /shops/{shop}/connect
-    public function connect(\App\Shop $shop)
+    // get /link_requests/{link_request}/connect
+    public function connect(\App\LinkRequest $link_request)
     {
         return view('shops.connect', [
-            'shop' => $shop,
+            'shop' => $link_request->shop,
+            'user' => $link_request->user,
+            'link_request' => $link_request,
         ]);
     }
 
-    // post /shops/{shop}/connect
-    public function linkage(Request $req, \App\Shop $shop)
+    // post /link_requests/{link_request}/connect
+    public function linkage(Request $req, \App\LinkRequest $link_request)
     {
         $this->validate($req, [
             'agreed' => 'accepted'
         ]);
-        $shop->user_id = Auth::user()->id;
-        $shop->save();
-        return redirect('/shops/'. $shop->id);
+
+        \DB::beginTransaction();
+        try {
+            $shop = $link_request->shop;
+            $shop->user_id = $link_request->user_id;
+            $link_request->accept_flg = true;
+            $link_request->save();
+            $shop->save();
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollback();
+        }
+
+        return redirect('/home_admin');
     }
 }
