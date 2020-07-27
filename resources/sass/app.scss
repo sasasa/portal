@@ -6,3 +6,12 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+footer {
+  height: 100px;
+  border-top: 2px solid #666;
+}
+.footer_nav {
+  list-style-type: none;
+  display: flex;
+}

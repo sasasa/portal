@@ -7,13 +7,13 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -101,6 +101,25 @@
             @yield('content')
         </main>
     </div>
+    <footer>
+        <ul class="footer_nav">
+            <li>
+            <a href="/terms_of_use">利用規約</a>
+            </li>
+            <li>
+            <a href="/management_company">運営会社</a>
+            </li>
+            <li>
+            <a href="/privacy_policy">プライバシーポリシー</a>
+            </li>
+            <li>
+            <a href="/how_to_publish">店舗・施設の掲載をお考えの方へ</a>
+            </li>
+        </ul>
+        <div class="footer_inner">
+            ©Grow-up, Inc. All Rights reserved.
+        </div>
+    </footer>
     @yield('script')
 </body>
 </html>
