@@ -57,8 +57,16 @@ class LinkRequestsController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(\App\Shop $shop, \App\LinkRequest $link_request)
     {
-        //
+        // 管理者のみ削除できる
+        if ( Auth::user()->role == 'admin' ) {
+            if ( $link_request->accept_flg ) {
+                Storage::disk('public')->delete($link_request->license_path);
+                $link_request->delete();
+            }
+
+            return redirect('/home_admin');
+        }
     }
 }

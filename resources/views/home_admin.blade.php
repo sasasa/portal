@@ -21,7 +21,17 @@
                                 <a href="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}">{{$link_request->shop->shop_name}}
                                 ({{$link_request->accept_flg ? '申請完了' : '申請中'}})
                                 </a>
-                                <a href="/link_requests/{{$link_request->id}}/linkage">紐づける</a>
+                                @if ($link_request->accept_flg)
+                                    <form action="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="submit" value="削除する" class="btn btn-sm btn-danger btn-del">
+                                    </form>
+                                @else
+                                    <div>
+                                        <a href="/link_requests/{{$link_request->id}}/linkage" class="btn btn-sm btn-primary">紐づける</a>
+                                    </div>
+                                @endif
                             </li>
                         @empty
                             <li>現在、申請はありません。</li>
@@ -32,4 +42,20 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script type="module">
+$(function(){
+    $(".btn-del").click(function() {
+        if(confirm("手元のPCに画像コピーを済ませましたか？")) {
+            //そのままsubmit（削除）
+        } else {
+            //cancel
+            event.preventDefault();
+            return false;
+        }
+    });
+});
+</script>
 @endsection
