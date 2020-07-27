@@ -7,6 +7,12 @@
     <th>{{__('validation.attributes.shop_name')}}</th>
     <td>
       {{ $shop->shop_name }}
+      @if ( is_null($shop->user) && is_null($shop->link_request) )
+        <a href="/shops/{{$shop->id}}/link_requests/create">オーナー様はこちら</a>
+      @endif
+      @if ( Auth::check() && $shop->user == Auth::user() )
+        <a href="/shops/{{$shop->id}}/edit">編集する</a>
+      @endif
     </td>
   </tr>
   <tr>
@@ -41,7 +47,9 @@
           <li>ブログは存在しません。</li>
       @endforelse
       </ul>
-      <a href="/shops/{{$shop->id}}/blogs/create">記事を書く</a>
+      @if ( Auth::check() && $shop->user == Auth::user() )
+        <a href="/shops/{{$shop->id}}/blogs/create">記事を書く</a>
+      @endif
     </td>
   </tr>
 </table>

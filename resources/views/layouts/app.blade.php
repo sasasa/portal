@@ -58,6 +58,22 @@
                                 <a class="nav-link" href="{{ route('login_admin') }}">管理者{{ __('Login') }}</a>
                             </li>
                         @else
+                            @if (Auth::user()->role == 'admin')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/home_admin">管理者home</a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->role == 'shop')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/home_shop">店舗home</a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->role == 'user')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/home">home</a>
+                                </li>
+                            @endif
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -66,7 +82,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                    document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -85,5 +101,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('script')
 </body>
 </html>

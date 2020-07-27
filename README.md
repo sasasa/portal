@@ -9,10 +9,10 @@ php artisan make:controller PlaceController --resource
 
 php artisan migrate
 php artisan migrate:refresh
-
-php artisan make:command ShopLoader
 php artisan csv:load
 php artisan shop:load
+
+php artisan make:command ShopLoader
 php artisan make:model Shop -m
 
 
@@ -48,6 +48,12 @@ php artisan make:controller ShopsController --resource
 php artisan storage:link
 php artisan make:model Blog -m
 php artisan make:controller BlogsController --resource
+
+
+php artisan make:model LinkRequest -m
+php artisan make:controller LinkRequestsController --resource
+
+
 ```
 
 

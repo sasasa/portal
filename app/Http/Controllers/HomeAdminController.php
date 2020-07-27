@@ -23,6 +23,9 @@ class HomeAdminController extends Controller
      */
     public function index()
     {
-        return view('home_admin');
+        return view('home_admin', [
+            // 'link_requests' => \App\LinkRequest::where('accept_flg', false)->get()
+            'link_requests' => \App\LinkRequest::all()
+        ]);
     }
 }

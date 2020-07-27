@@ -38,18 +38,20 @@ class BlogsController extends Controller
      */
     public function store(\App\Shop $shop, Request $req)
     {
+        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
+        if (Auth::user()->id == $shop->user_id) {
+            $this->validate($req, \App\Blog::$rules);
+            $file = $req->upfile;
+            $file_name = basename($file->store('public'));
 
-        $this->validate($req, \App\Blog::$rules);
-        $file = $req->upfile;
-        $file_name = basename($file->store('public'));
-
-        $blog = new \App\Blog();
-        $blog->fill($req->all());
-        $blog->user_id = Auth::user()->id;
-        $blog->shop_id = $shop->id;
-        $blog->blog_path = $file_name;
-        $blog->save();
-        return redirect('/shops/'. $shop->id. '/blogs/'. $blog->id);
+            $blog = new \App\Blog();
+            $blog->fill($req->all());
+            $blog->user_id = Auth::user()->id;
+            $blog->shop_id = $shop->id;
+            $blog->blog_path = $file_name;
+            $blog->save();
+            return redirect('/shops/'. $shop->id. '/blogs/'. $blog->id);
+        }
     }
 
     /**
