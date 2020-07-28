@@ -64,6 +64,8 @@ Route::view('login_admin', 'auth.login_admin');
 Route::post('login_admin', 'Auth\LoginAdminController@login')->name('login_admin');
 
 
-
-
+Route::view('terms_of_use', 'basic.terms_of_use');
+Route::view('management_company', 'basic.management_company');
+Route::view('privacy_policy', 'basic.privacy_policy');
+Route::view('how_to_publish', 'basic.how_to_publish');
 
