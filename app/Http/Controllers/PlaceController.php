@@ -18,6 +18,13 @@ class PlaceController extends Controller
         ]);
     }
 
+    public function json_districts($prefecture)
+    {
+        return response()->json([
+            'places' => \App\Place::where('prefecture', $prefecture)->pluck("district")
+        ]);
+    }
+
     public function districts($prefecture)
     {
         return view('place.districts', [

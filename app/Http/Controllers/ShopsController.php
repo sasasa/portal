@@ -22,9 +22,10 @@ class ShopsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $req)
     {
-        //
+        return view('shops.create', [
+        ]);
     }
 
     /**
@@ -33,9 +34,15 @@ class ShopsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
+        $this->validate($req, \App\Shop::$create_rules);
+        $shop = new \App\Shop();
+        $shop->fillWithLocation($req);
+        $shop->user_id = Auth::user()->id;
+        $shop->save();
+        return redirect('/shops/'. $shop->id);
     }
 
     /**

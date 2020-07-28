@@ -152,6 +152,9 @@ return [
         'shop_mail' => 'メールアドレス',
         'url' => 'URL',
         'description' => '詳細',
+        'prefecture' => '都道府県',
+        'district' => '市区町村',
+
 
         'word_of_mouth' => '口コミ',
 

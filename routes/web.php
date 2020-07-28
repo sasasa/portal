@@ -44,6 +44,7 @@ Route::redirect('/', '/p', 301);
 
 Route::get('p', 'PlaceController@index');
 Route::get('p/{prefecture}', 'PlaceController@districts');
+Route::post('p/json/{prefecture}', 'PlaceController@json_districts');
 Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
 Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop');
 Route::resource('shops', 'ShopsController', ['only' => ['index', 'show']]);

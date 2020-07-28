@@ -37,6 +37,8 @@
                             <li>現在、申請はありません。</li>
                         @endforelse
                     </ul>
+
+                    <a href="/shops/create">店舗を新規登録する</a>
                 </div>
             </div>
         </div>
