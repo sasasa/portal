@@ -34,6 +34,7 @@ npm run dev
 php artisan ui vue --auth
 npm install
 npm run dev
+npm run watch
 
 php artisan make:seeder UsersTableSeeder
 php artisan db:seed --class=UsersTableSeeder
@@ -53,7 +54,7 @@ php artisan make:controller BlogsController --resource
 php artisan make:model LinkRequest -m
 php artisan make:controller LinkRequestsController --resource
 
-
+composer require laravel/helpers
 ```
 
 

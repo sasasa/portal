@@ -10930,11 +10930,17 @@ a.text-dark:focus {
 
 footer {
   height: 100px;
-  border-top: 2px solid #666;
+  border-top: 1px solid #666;
+  display: flex;
+  justify-content: space-between;
 }
 
 .footer_nav {
   list-style-type: none;
   display: flex;
+}
+
+.footer_nav li {
+  margin-right: 1rem;
 }
 
