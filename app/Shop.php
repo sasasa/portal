@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Shop extends Model
 {
+    public static $create_rules = [
+        'shop_name' => 'required|max:100',
+        'prefecture' => 'required',
+        'district' => 'required',
+        'location' => 'required|max:125',
+        'phone_number' => 'required',
+        'shop_mail' => 'nullable|email',
+        'url' => 'nullable|url',
+        'description' => 'nullable|min:10',
+    ];
+
     public static $rules = [
         'shop_name' => 'required|max:100',
         'location' => 'required|max:125',
@@ -38,5 +49,10 @@ class Shop extends Model
     public function link_request()
     {
         return $this->hasOne('App\LinkRequest');
+    }
+    public function fillWithLocation($req)
+    {
+        $this->fill($req->all());
+        $this->location = $req->prefecture. $req->district. $this->location;
     }
 }
