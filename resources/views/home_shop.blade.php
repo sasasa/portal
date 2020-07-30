@@ -13,6 +13,24 @@
                             {{ session('status') }}
                         </div>
                     @endif
+
+                    @if (!Auth::user()->is_shop_subscription_user())
+                    <div class="mb-3">
+                        @include('components.publicity')
+                    </div>
+                    @else
+                    <div class="mb-3">
+                        <h2>現在、有料会員に登録しています。</h2>
+                        <ul>
+                        <li>店舗の一覧で前の方に表示されます。</li>
+                        <li>店舗の情報を編集できます。</li>
+                        <li>店舗ブログを投稿できます。</li>
+                        <li>店舗ブログを投稿すると前の方に表示されます。</li>
+                        <li>口コミを入力できます。</li>
+                        </ul>
+                    </div>
+                    @endif
+
                     <h2>現在の申請状況</h2>
                     <ul>
                         @forelse ($link_requests as $link_request)

@@ -38,7 +38,7 @@ class LinkRequestsController extends Controller
 
     public function show(\App\Shop $shop, \App\LinkRequest $link_request)
     {
-        // 自身の時もしくは管理者のみ申請状況を見れる
+        // 自身が申請した時もしくは管理者のみ申請状況を見れる
         if( $link_request->user_id == Auth::user()->id || Auth::user()->role == 'admin' ) {
             return view('link_requests.show', [
                 'shop' => $shop,

@@ -25,9 +25,20 @@ class BlogsController extends Controller
      */
     public function create(\App\Shop $shop)
     {
-        return view('blogs.create', [
-            'shop' => $shop
-        ]);
+
+
+
+        if (Auth::user()->id == $shop->user_id) {
+            if ( Auth::user()->is_shop_subscription_user() ) {
+                return view('blogs.create', [
+                    'shop' => $shop
+                ]);
+            } else if ( Auth::user()->role == 'shop' ) {
+                return view('shops.publicity', [
+                    'shop' => $shop
+                ]);
+            }
+        }
     }
 
     /**
@@ -38,8 +49,9 @@ class BlogsController extends Controller
      */
     public function store(\App\Shop $shop, Request $req)
     {
-        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
-        if (Auth::user()->id == $shop->user_id) {
+        // ログインユーザが店舗の管理ユーザ時で
+        // 有料ユーザー時のみブログを作成可能
+        if (Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user() ) {
             $this->validate($req, \App\Blog::$rules);
             $file = $req->upfile;
             $file_name = basename($file->store('public'));

@@ -37,6 +37,7 @@
                             <li>現在、申請はありません。</li>
                         @endforelse
                     </ul>
+                    <a href="/shop_users">店舗ユーザー管理</a>
                 </div>
             </div>
         </div>
