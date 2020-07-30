@@ -35,23 +35,28 @@ class EvaluationsController extends Controller
      */
     public function store(Request $req)
     {
-        $this->validate($req, \App\Evaluation::$rules);
-        $evaluation = new \App\Evaluation();
-        $evaluation->fill($req->all());
-        $evaluation->user_id = Auth::user()->id;
-        $evaluation->save();
+        if ( Auth::user()->is_shop_subscription_user() || Auth::user()->role == 'user' ) {
+            $this->validate($req, \App\Evaluation::$rules);
+            $evaluation = new \App\Evaluation();
+            $evaluation->fill($req->all());
+            $evaluation->user_id = Auth::user()->id;
+            $evaluation->save();
 
-        if ( $req->prefecture ) {
-            return redirect(route('shop', [
-                'prefecture' => $req->prefecture,
-                'district' => $req->district,
-                'id' => $req->shop_id
-            ]));
-        } else {
-            return redirect(route('shops.show', [
-                'shop' => $req->shop_id
-            ]));
+            if ( $req->prefecture ) {
+                return redirect(route('shop', [
+                    'prefecture' => $req->prefecture,
+                    'district' => $req->district,
+                    'id' => $req->shop_id
+                ]));
+            } else {
+                return redirect(route('shops.show', [
+                    'shop' => $req->shop_id
+                ]));
+            }
+        } else if ( Auth::user()->role == 'shop' ) {
+            return redirect('/shops/publicity');
         }
+
     }
 
     /**

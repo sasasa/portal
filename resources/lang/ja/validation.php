@@ -171,6 +171,7 @@ return [
 
         "name" => "名前",
         "password" => "パスワード",
+        "is_subscription" => "定期契約",
         "password_confirmation" => "パスワード(確認用)",
         "email" => "メールアドレス",
     ],

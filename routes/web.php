@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function (
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
   Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
   Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
+  Route::get('shops/publicity', 'ShopsController@publicity');
 
 });
 
@@ -34,6 +35,11 @@ Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function 
 
   Route::get('/link_requests/{link_request}/linkage', 'ShopsController@connect');
   Route::post('/link_requests/{link_request}/linkage', 'ShopsController@linkage');
+
+  Route::get('/shop_users', 'ShopUsersController@index');
+  Route::get('/shop_users/{shop_user}', 'ShopUsersController@show');
+  Route::patch('/shop_users/{shop_user}', 'ShopUsersController@update');
+  
 });
 
 

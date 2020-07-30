@@ -7,6 +7,44 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\MustVerifyEmail;
 
+/**
+ * App\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string $password
+ * @property string $role
+ * @property int $is_subscription 定期契約フラグ
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Blog[] $blogs
+ * @property-read int|null $blogs_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Evaluation[] $evaluations
+ * @property-read int|null $evaluations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\LinkRequest[] $link_requests
+ * @property-read int|null $link_requests_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Shop[] $shops
+ * @property-read int|null $shops_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsSubscription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements MustVerifyEmailContract
 {
     use MustVerifyEmail, Notifiable;
@@ -20,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmailContract
         'name', 'email', 'password',
     ];
 
-    // role admin,shop,user
+    // role: (admin),(shop),(user)
 
     /**
      * The attributes that should be hidden for arrays.
@@ -55,5 +93,9 @@ class User extends Authenticatable implements MustVerifyEmailContract
     public function link_requests()
     {
         return $this->hasMany('App\LinkRequest');
+    }
+    public function is_shop_subscription_user()
+    {
+        return $this->role == 'shop' && $this->is_subscription;
     }
 }

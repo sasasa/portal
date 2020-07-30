@@ -66,8 +66,22 @@ class ShopsController extends Controller
      */
     public function edit(\App\Shop $shop)
     {
-        return view('shops.edit', [
-            'shop' => $shop
+        if (Auth::user()->id == $shop->user_id) {
+            if ( Auth::user()->is_shop_subscription_user() ) {
+                return view('shops.edit', [
+                    'shop' => $shop
+                ]);
+            } else if ( Auth::user()->role == 'shop' ) {
+                return view('shops.publicity', [
+                    'shop' => $shop
+                ]);
+            }
+        }
+    }
+
+    public function publicity()
+    {
+        return view('shops.publicity', [
         ]);
     }
 
@@ -80,8 +94,8 @@ class ShopsController extends Controller
      */
     public function update(Request $req, \App\Shop $shop)
     {
-        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
-        if (Auth::user()->id == $shop->user_id) {
+        // ログインユーザが店舗の管理ユーザの時のみブログを更新可能
+        if (Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user()) {
             $this->validate($req, \App\Shop::$rules);
             $shop->fill($req->all())->save();
             return redirect('/shops/'. $shop->id);

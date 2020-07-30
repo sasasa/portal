@@ -35,10 +35,18 @@ class PlaceController extends Controller
 
     public function shops($prefecture, $district)
     {
+        $uniq_shops = \App\Shop::select('shops.*')
+                    ->leftJoin('users', 'shops.user_id', '=', 'users.id')
+                    ->where('shops.location', 'like', $prefecture. $district. '%')
+                    ->orderBy('users.is_subscription', 'DESC')
+                    ->orderBy('shops.blog_id', 'DESC')->paginate(10);
+
         return view('place.shops', [
             'prefecture' => $prefecture,
             'district' => $district,
-            'shops' => \App\Shop::where('location', 'like', $prefecture. $district. '%')->paginate(10)
+            // 'shops' => \App\Shop::where('location', 'like', $prefecture. $district. '%')->paginate(10),
+
+            'shops' => $uniq_shops
         ]);
     }
 

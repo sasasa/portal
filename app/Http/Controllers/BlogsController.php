@@ -25,9 +25,17 @@ class BlogsController extends Controller
      */
     public function create(\App\Shop $shop)
     {
-        return view('blogs.create', [
-            'shop' => $shop
-        ]);
+        if (Auth::user()->id == $shop->user_id) {
+            if ( Auth::user()->is_shop_subscription_user() ) {
+                return view('blogs.create', [
+                    'shop' => $shop
+                ]);
+            } else if ( Auth::user()->role == 'shop' ) {
+                return view('shops.publicity', [
+                    'shop' => $shop
+                ]);
+            }
+        }
     }
 
     /**
@@ -38,19 +46,28 @@ class BlogsController extends Controller
      */
     public function store(\App\Shop $shop, Request $req)
     {
-        // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
-        if (Auth::user()->id == $shop->user_id) {
-            $this->validate($req, \App\Blog::$rules);
-            $file = $req->upfile;
-            $file_name = basename($file->store('public'));
+        // ログインユーザが店舗の管理ユーザ時で
+        // 有料ユーザー時のみブログを作成可能
+        if (Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user() ) {
+            \DB::beginTransaction();
+            try {
+                $this->validate($req, \App\Blog::$rules);
+                $file = $req->upfile;
+                $file_name = basename($file->store('public'));
+                $blog = new \App\Blog();
+                $blog->fill($req->all());
+                $blog->user_id = Auth::user()->id;
+                $blog->shop_id = $shop->id;
+                $blog->blog_path = $file_name;
+                $blog->save();
+                $shop->blog_id = $blog->id;
+                $shop->save();
+                \DB::commit();
 
-            $blog = new \App\Blog();
-            $blog->fill($req->all());
-            $blog->user_id = Auth::user()->id;
-            $blog->shop_id = $shop->id;
-            $blog->blog_path = $file_name;
-            $blog->save();
-            return redirect('/shops/'. $shop->id. '/blogs/'. $blog->id);
+                return redirect('/shops/'. $shop->id. '/blogs/'. $blog->id);
+            } catch (\Exception $e) {
+                \DB::rollback();
+            }
         }
     }
 
@@ -99,8 +116,16 @@ class BlogsController extends Controller
      */
     public function destroy(\App\Shop $shop, \App\Blog $blog)
     {
-        Storage::disk('public')->delete($blog->blog_path);
-        $blog->delete();
-        return redirect('/shops/'. $shop->id);
+        \DB::beginTransaction();
+        try {
+            Storage::disk('public')->delete($blog->blog_path);
+            $blog->delete();
+            $shop->save_latest_blog_id();
+            \DB::commit();
+
+            return redirect('/shops/'. $shop->id);
+        } catch (\Exception $e) {
+            \DB::rollback();
+        }
     }
 }
