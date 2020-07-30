@@ -37,20 +37,9 @@ class PlaceController extends Controller
     {
         $uniq_shops = \App\Shop::select('shops.*')
                     ->leftJoin('users', 'shops.user_id', '=', 'users.id')
-                    ->leftJoin('blogs', 'blogs.shop_id', '=', 'shops.id')
                     ->where('shops.location', 'like', $prefecture. $district. '%')
                     ->orderBy('users.is_subscription', 'DESC')
-                    ->orderBy('blogs.created_at', 'DESC')->distinct()->paginate(10);
-        // dd($uniq_shops);
-
-        // $uniq_shops = \DB::select('SELECT shops.* FROM shops '.
-        //                         'LEFT JOIN users ON users.id = shops.user_id '.
-        //                         'LEFT JOIN blogs ON blogs.shop_id = shops.id '.
-        //                         'GROUP BY shops.id '.
-        //                         'WHERE shops.location LIKE ? '.
-        //                         'ORDER BY users.is_subscription DESC', [$prefecture. $district. '%']);
-        // dd($uniq_shops);
-
+                    ->orderBy('shops.blog_id', 'DESC')->paginate(10);
 
         return view('place.shops', [
             'prefecture' => $prefecture,

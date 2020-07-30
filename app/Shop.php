@@ -89,4 +89,9 @@ class Shop extends Model
         $this->fill($req->all());
         $this->location = $req->prefecture. $req->district. $this->location;
     }
+    public function save_latest_blog_id()
+    {
+        $this->blog_id = $this->blogs()->pluck('id')->max();
+        $this->save();
+    }
 }

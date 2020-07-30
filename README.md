@@ -65,6 +65,10 @@ composer require --dev barryvdh/laravel-ide-helper
 composer require --dev doctrine/dbal
 php artisan ide-helper:generate
 php artisan ide-helper:model
+
+
+php artisan make:migration add_column_blog_id_to_shops_table --table=shops
+
 ```
 
 
