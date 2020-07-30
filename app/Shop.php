@@ -37,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Shop whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Shop whereUserId($value)
  * @mixin \Eloquent
+ * @property int|null $blog_id 最新ブログのID
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Shop whereBlogId($value)
  */
 class Shop extends Model
 {
