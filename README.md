@@ -11,6 +11,7 @@ php artisan migrate
 php artisan migrate:refresh
 php artisan csv:load
 php artisan shop:load
+php artisan db:seed --class=UsersTableSeeder
 
 php artisan make:command ShopLoader
 php artisan make:model Shop -m

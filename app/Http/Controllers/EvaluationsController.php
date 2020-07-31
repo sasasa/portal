@@ -35,11 +35,13 @@ class EvaluationsController extends Controller
      */
     public function store(Request $req)
     {
-        if ( Auth::user()->is_shop_subscription_user() || Auth::user()->role == 'user' ) {
+        if ( is_null(Auth::user())
+            || Auth::user() && Auth::user()->is_shop_subscription_user() 
+            || Auth::user() && Auth::user()->role == 'admin' ) {
             $this->validate($req, \App\Evaluation::$rules);
             $evaluation = new \App\Evaluation();
             $evaluation->fill($req->all());
-            $evaluation->user_id = Auth::user()->id;
+            $evaluation->user_id = Auth::user()? Auth::user()->id : null;
             $evaluation->save();
 
             if ( $req->prefecture ) {
@@ -53,10 +55,9 @@ class EvaluationsController extends Controller
                     'shop' => $req->shop_id
                 ]));
             }
-        } else if ( Auth::user()->role == 'shop' ) {
+        } else if ( Auth::user() && Auth::user()->role == 'shop' ) {
             return redirect('/shops/publicity');
         }
-
     }
 
     /**
@@ -101,18 +102,20 @@ class EvaluationsController extends Controller
      */
     public function destroy(Request $req, \App\Evaluation $evaluation)
     {
-        $evaluation->delete();
-
-        if ( $req->prefecture ) {
-            return redirect(route('shop', [
-                'prefecture' => $req->prefecture,
-                'district' => $req->district,
-                'id' => $evaluation->shop_id
-            ]));
-        } else {
-            return redirect(route('shops.show', [
-                'shop' => $evaluation->shop_id
-            ]));
+        if ( Auth::user()->role == 'admin' ) {
+            $evaluation->delete();
+            if ( $req->prefecture ) {
+                return redirect(route('shop', [
+                    'prefecture' => $req->prefecture,
+                    'district' => $req->district,
+                    'id' => $evaluation->shop_id
+                ]));
+            } else {
+                return redirect(route('shops.show', [
+                    'shop' => $evaluation->shop_id
+                ]));
+            }
         }
+
     }
 }

@@ -10,7 +10,7 @@
 <ul>
 @forelse ($shop->evaluations as $evaluation)
   <li>{{$evaluation->word_of_mouth}}
-  @if (Auth::id() == $evaluation->user_id)
+  @if (Auth::user() && Auth::user()->role == 'admin')
     <form action="/evaluations/{{$evaluation->id}}" method="post">
       @csrf
       @method('delete')
