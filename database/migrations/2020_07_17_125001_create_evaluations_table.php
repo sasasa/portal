@@ -15,7 +15,7 @@ class CreateEvaluationsTable extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
-            $table->biginteger('user_id')->index();
+            $table->biginteger('user_id')->nullable()->index();
             $table->biginteger('shop_id')->index();
             $table->text('word_of_mouth');
             $table->timestamps();
