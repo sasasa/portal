@@ -163,6 +163,10 @@ return [
         'upfile' => '画像',
         'blog_content' => 'コンテンツ',
 
+        'article_title' => '記事タイトル',
+        'article_path' => '画像',
+        'article_content' => '記事コンテンツ',
+
         'request_name' => '名前（非公表です）',
         'request_email' => '申請メルアド(非公表です)',
         'request_tel' => '申請電話番号',

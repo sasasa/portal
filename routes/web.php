@@ -39,9 +39,10 @@ Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function 
   Route::get('/shop_users', 'ShopUsersController@index');
   Route::get('/shop_users/{shop_user}', 'ShopUsersController@show');
   Route::patch('/shop_users/{shop_user}', 'ShopUsersController@update');
-  
-});
 
+  Route::resource('articles', 'ArticlesController', ['except' => ['show']]);
+});
+Route::resource('articles', 'ArticlesController', ['only' => ['show']]);
 
 
 

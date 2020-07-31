@@ -29,7 +29,7 @@
   </div>
   <div class="form-group">
     <label for="blog_content">{{__('validation.attributes.blog_content')}}:</label>
-    <textarea id="blog_content" class="form-control @error('blog_content') is-invalid @enderror" name="blog_content">{{old('blog_content')}}</textarea>
+    <textarea rows="10" id="blog_content" class="form-control @error('blog_content') is-invalid @enderror" name="blog_content">{{old('blog_content')}}</textarea>
     @error('blog_content')
     <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
