@@ -62,6 +62,8 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+
+                                <br><a class="btn btn-link mt-1" href="{{ route('register_shop') }}">店舗{{ __('Register') }}</a>
                             </div>
                         </div>
                     </form>
