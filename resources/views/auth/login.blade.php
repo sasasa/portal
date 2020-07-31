@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">ユーザ{{ __('Login') }}</div>
+                <div class="card-header">店舗{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login_shop') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -62,6 +62,8 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                
+                                <br><a class="btn btn-link mt-1" href="{{ route('register_shop') }}">店舗{{ __('Register') }}</a>
                             </div>
                         </div>
                     </form>
