@@ -85,22 +85,14 @@
 </ul>
 </div>
 
-
-
-
-
-
-<table class="table">
-  <tr>
-    <th>都道府県</th>
-    <th>市区町村</th>
-  </tr>
-  @foreach ($places as $place)
-    <tr>
-      <td>{{ $place->prefecture }}</td>
-      <td>{{ $place->district }}</td>
-    </tr>
-  @endforeach
-</table>
-{{ $places->links() }}
+<div>
+  <h2>記事一覧（最新10件）</h2>
+    <ul>
+      @foreach ($articles as $article)
+        <li>
+          <a href="/articles/{{$article->id}}">{{$article->article_title}}</a>
+        </li>
+      @endforeach
+    </ul>
+</div>
 @endsection
