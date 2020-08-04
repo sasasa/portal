@@ -75,6 +75,8 @@ php artisan make:migration add_column_blog_id_to_shops_table --table=shops
 php artisan make:model Article -m
 php artisan make:controller ArticlesController --resource
 
+php artisan make:migration add_column_parent_id_to_evaluations_table --table=evaluations
+
 ```
 
 

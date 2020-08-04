@@ -10944,3 +10944,7 @@ footer {
   margin-right: 1rem;
 }
 
+.inline_form {
+  display: inline;
+}
+

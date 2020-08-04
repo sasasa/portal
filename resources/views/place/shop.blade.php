@@ -9,9 +9,13 @@
 <div class="mt-5">
 <ul>
 @forelse ($shop->evaluations as $evaluation)
-  <li>{{$evaluation->word_of_mouth}}
-  @if (Auth::user() && Auth::user()->role == 'admin')
-    <form action="/evaluations/{{$evaluation->id}}" method="post">
+  <li>{{$evaluation->word_of_mouth}}（{{$evaluation->format_date}}）
+  @if (Auth::user() && Auth::user()->role == 'shop' && Auth::user() == $shop->user)
+    <a href="/p/{{$prefecture}}/{{$district}}/{{$shop->id}}/{{$evaluation->id}}">返信を書く</a>
+  @endif
+  @if ( (Auth::user() && Auth::user()->role == 'admin') ||
+        (Auth::user() && Auth::user()->role == 'shop' && Auth::user() == $evaluation->user) )
+    <form action="/evaluations/{{$evaluation->id}}" method="post" class="inline_form">
       @csrf
       @method('delete')
       <input type="hidden" name="prefecture" value="{{$prefecture}}">
@@ -19,34 +23,43 @@
       <input type="submit" value="削除する" class="btn btn-sm btn-danger">
     </form>
   @endif
+
+  <ul>
+    @foreach ($evaluation->children as $child_evaluation)
+      <li>{{$child_evaluation->word_of_mouth}}（{{$child_evaluation->format_date}}）
+        @if (Auth::user() && Auth::user()->role == 'admin' ||
+        (Auth::user() && Auth::user()->role == 'shop' && Auth::user() == $shop->user) )
+          <form action="/evaluations/{{$child_evaluation->id}}" method="post" class="inline_form">
+            @csrf
+            @method('delete')
+            <input type="hidden" name="prefecture" value="{{$prefecture}}">
+            <input type="hidden" name="district" value="{{$district}}">
+            <input type="submit" value="削除する" class="btn btn-sm btn-danger">
+          </form>
+        @endif
+      </li>
+    @endforeach
+  </ul>
   </li>
 @empty
   <li>口コミは存在しません。</li>
 @endforelse
 </ul>
 </div>
-<form action="/evaluations" method="post" class="mt-5">
-  @csrf
-  <input type="hidden" name="prefecture" value="{{$prefecture}}">
-  <input type="hidden" name="district" value="{{$district}}">
-  <input type="hidden" name="shop_id" value="{{$shop->id}}">
-  <div class="form-group">
-    <label for="word_of_mouth">口コミ:</label>
-    <textarea id="word_of_mouth" class="form-control @error('word_of_mouth') is-invalid @enderror" name="word_of_mouth">{{old('word_of_mouth')}}</textarea>
-    @error('word_of_mouth')
-    <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-    </span>
-    @enderror
-  </div>
-  <button type="submit" class="btn btn-primary">投稿</button>
-</form>
+@if ( is_null(Auth::user()) ||
+    (Auth::user() && Auth::user()->role == 'shop' && Auth::user() == $shop->user) )
+@include('components.evaluation_post', [
+  'prefecture' => $prefecture,
+  'district' => $district,
+  'parent_id' => '',
+  'label' => '口コミ',
+  ])
+@endif
 
-<script type="text/javascript"><!--
-  var e = document.querySelector('.is-invalid');
+<script type="module" >
+  var e = $('.is-invalid');
   if(e) {
     e.focus();
   }
-  //-->
 </script>
 @endsection

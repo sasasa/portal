@@ -156,7 +156,7 @@ return [
         'district' => '市区町村',
 
 
-        'word_of_mouth' => '口コミ',
+        'word_of_mouth' => '内容',
 
         'blog_title' => 'タイトル',
         'blog_path' => '画像',
