@@ -72,7 +72,7 @@ class Shop extends Model
 
     public function evaluations()
     {
-        return $this->hasMany('App\Evaluation');
+        return $this->hasMany('App\Evaluation')->whereNull('parent_id')->with(['children']);
     }
     public function blogs()
     {

@@ -27,6 +27,24 @@ class EvaluationsController extends Controller
         //
     }
 
+    public function reply(\App\Shop $shop, \App\Evaluation $evaluation)
+    {
+        return view('evaluations.reply', [
+            'shop' => $shop,
+            'evaluation' => $evaluation
+        ]);
+    }
+
+    public function reply_with_place($prefecture, $district, \App\Shop $shop, \App\Evaluation $evaluation)
+    {
+        return view('evaluations.reply_with_place', [
+            'prefecture' => $prefecture,
+            'district' => $district,
+            'shop' => $shop,
+            'evaluation' => $evaluation
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -102,7 +120,8 @@ class EvaluationsController extends Controller
      */
     public function destroy(Request $req, \App\Evaluation $evaluation)
     {
-        if ( Auth::user()->role == 'admin' ) {
+        if ((Auth::user()->role == 'admin') ||
+            (Auth::user()->role == 'shop' && Auth::user() == $evaluation->user)) {
             $evaluation->delete();
             if ( $req->prefecture ) {
                 return redirect(route('shop', [

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 /**
  * App\Evaluation
@@ -31,13 +32,12 @@ class Evaluation extends Model
 {
     public static $rules = [
         'word_of_mouth' => 'required|max:100',
-        // 'shop_id' => 'required|integer',
-        // 'user_id' => 'required|integer',
     ];
 
     protected $fillable = [
         'word_of_mouth',
         'shop_id',
+        'parent_id',
     ];
 
     public function user()
@@ -49,8 +49,26 @@ class Evaluation extends Model
         return $this->belongsTo('App\Shop');
     }
 
-    function getFormatDateAttribute($value)
+    public function parent()
     {
-        return $value ? Carbon::parse($value)->format('Y年m月d日 H-i-s') : null;
+        return $this->belongsTo('App\Evaluation', 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany('App\Evaluation', 'parent_id');
+    }
+
+    public function getFormatDateAttribute()
+    {
+        return Carbon::parse($this->created_at)->format('Y年m月d日 H時i分');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($evaluation) {
+            $evaluation->children()->delete();
+        });
     }
 }

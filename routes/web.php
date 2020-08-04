@@ -55,6 +55,9 @@ Route::get('p/{prefecture}', 'PlaceController@districts');
 Route::post('p/json/{prefecture}', 'PlaceController@json_districts');
 Route::get('p/{prefecture}/{district}', 'PlaceController@shops');
 Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop');
+Route::get('p/{prefecture}/{district}/{shop}/{evaluation}', 'EvaluationsController@reply_with_place');
+Route::get('shops/{shop}/{evaluation}', 'EvaluationsController@reply');
+
 Route::resource('shops', 'ShopsController', ['only' => ['index', 'show']]);
 
 Route::get('shops/{shop}/blogs/{blog}', 'BlogsController@show');
