@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LinkRequestNotification;
 
 class ShopsController extends Controller
 {
@@ -126,20 +128,30 @@ class ShopsController extends Controller
     // post /link_requests/{link_request}/connect
     public function linkage(Request $req, \App\LinkRequest $link_request)
     {
-        $this->validate($req, [
-            'agreed' => 'accepted'
-        ]);
-
-        \DB::beginTransaction();
-        try {
-            $shop = $link_request->shop;
-            $shop->user_id = $link_request->user_id;
-            $link_request->accept_flg = true;
-            $link_request->save();
-            $shop->save();
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollback();
+        // 申し込んできたユーザが申し込みユーザならば
+        if (\App\User::find($link_request->user_id)->is_shop_subscription_user()) {
+            if ($req->accept == 'accept') {
+                \DB::beginTransaction();
+                try {
+                    $shop = $link_request->shop;
+                    $shop->user_id = $link_request->user_id;
+                    $link_request->accept();
+                    $link_request->save();
+                    $shop->save();
+                    \DB::commit();
+                    Mail::to($link_request->request_email)->send(new LinkRequestNotification($link_request->shop->shop_name, $link_request));
+                } catch (\Exception $e) {
+                    \DB::rollback();
+                }
+            } else if ($req->accept == 'reject') {
+                $this->validate($req, [
+                    'reason' => 'required'
+                ]);
+                $link_request->reason = $req->reason;
+                $link_request->reject();
+                $link_request->save();
+                Mail::to($link_request->request_email)->send(new LinkRequestNotification($link_request->shop->shop_name, $link_request));
+            }
         }
 
         return redirect('/home_admin');

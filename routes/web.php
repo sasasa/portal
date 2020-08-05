@@ -15,14 +15,13 @@ use Illuminate\Support\Facades\Route;
 // ユーザのみ
 Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
+  Route::resource('shops.link_requests', 'LinkRequestsController', ['except' => ['index']]);
 });
 Route::resource('evaluations', 'EvaluationsController');
 
 
 // 店舗のみ
 Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
-  Route::resource('shops.link_requests', 'LinkRequestsController', ['except' => ['index']]);
-
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
   Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
   Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);

@@ -47,21 +47,37 @@ class LinkRequestsController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(\App\Shop $shop, \App\LinkRequest $link_request)
     {
-        //
+        if (Auth::user()->is_shop_subscription_user()) {
+            return view('link_requests.edit', [
+                'shop' => $shop,
+                'link_request' => $link_request,
+            ]);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $req, \App\Shop $shop, \App\LinkRequest $link_request)
     {
-        //
+        $this->validate($req, \App\LinkRequest::$rules);
+        $file = $req->upfile;
+        $file_name = basename($file->store('public'));
+
+        $link_request->fill($req->all());
+        $link_request->user_id = Auth::user()->id;
+        $link_request->shop_id = $shop->id;
+        Storage::disk('public')->delete($link_request->license_path);
+        $link_request->license_path = $file_name;
+        $link_request->initial();
+        $link_request->save();
+        return redirect('/shops/'. $shop->id. '/link_requests/'. $link_request->id);
     }
 
     public function destroy(\App\Shop $shop, \App\LinkRequest $link_request)
     {
         // 管理者のみ削除できる
         if ( Auth::user()->role == 'admin' ) {
-            if ( $link_request->accept_flg ) {
+            if ( $link_request->is_accept() ) {
                 Storage::disk('public')->delete($link_request->license_path);
                 $link_request->delete();
             }

@@ -37,7 +37,13 @@
                         @forelse ($link_requests as $link_request)
                             <li>
                                 <a href="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}">{{$link_request->shop->shop_name}}
-                                ({{$link_request->accept_flg ? '申請完了' : '申請中'}})
+                                (@if ( $link_request->is_initial())
+                                申請中
+                                @elseif ( $link_request->is_accept() )
+                                受理しました
+                                @elseif ( $link_request->is_reject() )
+                                受理出来ませんでした
+                                @endif)
                                 </a>
                             </li>
                         @empty

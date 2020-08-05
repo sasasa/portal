@@ -19,9 +19,15 @@
                         @forelse ($link_requests as $link_request)
                             <li>
                                 <a href="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}">{{$link_request->shop->shop_name}}
-                                ({{$link_request->accept_flg ? '申請完了' : '申請中'}})
+                                (@if ( $link_request->is_initial())
+                                申請中
+                                @elseif ( $link_request->is_accept() )
+                                受理
+                                @elseif ( $link_request->is_reject() )
+                                拒否
+                                @endif)
                                 </a>
-                                @if ($link_request->accept_flg)
+                                @if ($link_request->is_accept())
                                     <form action="/shops/{{$link_request->shop->id}}/link_requests/{{$link_request->id}}" method="post">
                                         @csrf
                                         @method('delete')

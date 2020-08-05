@@ -171,7 +171,8 @@ return [
         'request_email' => '申請メルアド(非公表です)',
         'request_tel' => '申請電話番号',
         'request_address' => '申請住所',
-        'license_path' => '運転免許証もしくは健康保険証の画像',
+        'license_path' => '営業許可証、運転免許証、健康保険証等の画像',
+        'reason' => '拒否理由',
 
         "name" => "名前",
         "password" => "パスワード",

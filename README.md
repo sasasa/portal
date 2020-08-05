@@ -77,6 +77,10 @@ php artisan make:controller ArticlesController --resource
 
 php artisan make:migration add_column_parent_id_to_evaluations_table --table=evaluations
 
+php artisan make:migration add_column_accept_state_to_link_requests_table --table=link_requests
+
+
+php artisan make:mail LinkRequestNotification
 ```
 
 

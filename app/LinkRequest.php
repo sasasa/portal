@@ -69,4 +69,29 @@ class LinkRequest extends Model
     {
         return $this->belongsTo('App\Shop');
     }
+
+    public function accept()
+    {
+        $this->accept_state = 'accept';
+    }
+    public function is_accept()
+    {
+        return $this->accept_state == 'accept';
+    }
+    public function reject()
+    {
+        $this->accept_state = 'reject';
+    }
+    public function is_reject()
+    {
+        return $this->accept_state == 'reject';
+    }
+    public function is_initial()
+    {
+        return $this->accept_state == 'initial';
+    }
+    public function initial()
+    {
+        $this->accept_state = 'initial';
+    }
 }
