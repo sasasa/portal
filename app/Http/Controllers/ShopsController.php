@@ -9,50 +9,66 @@ use App\Mail\LinkRequestNotification;
 
 class ShopsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $req)
     {
-        //
+        $shop_query = \App\Shop::query();
+
+        if ($req->shop_name) {
+            $shop_query->where('shop_name', 'LIKE', "%".$req->shop_name."%");
+        }
+        if ($req->location) {
+            $shop_query->where('location', 'LIKE', "%".$req->location."%");
+        }
+        if ($req->phone_number) {
+            $shop_query->where('phone_number', 'LIKE', "%".$req->phone_number."%");
+        }
+        if ($req->shop_mail) {
+            $shop_query->where('shop_mail', 'LIKE', "%".$req->shop_mail."%");
+        }
+        if ($req->user_name) {
+            $shop_query->whereHas('user', function($q) use($req){
+                $q->where('name', 'LIKE', "%".$req->user_name."%");
+            });
+        }
+        if ($req->user_email) {
+            $shop_query->whereHas('user', function($q) use($req){
+                $q->where('email', 'LIKE', "%".$req->email."%");
+            });
+        }
+        
+        $shops = $shop_query->orderBy('created_at', 'desc')->paginate(10);
+        
+        return view('shops.index', [
+            'shops' => $shops,
+            'shop_name' => $req->shop_name,
+            'location' => $req->location,
+            'phone_number' => $req->phone_number,
+            'shop_mail' => $req->shop_mail,
+            'user_name' => $req->user_name,
+            'user_email' => $req->user_email,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $req)
     {
         return view('shops.create', [
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         // ログインユーザが店舗の管理ユーザの時のみブログを作成可能
         $this->validate($req, \App\Shop::$create_rules);
         $shop = new \App\Shop();
         $shop->fillWithLocation($req);
-        $shop->user_id = Auth::user()->id;
+        if (Auth::user() && Auth::user()->role == "shop") {
+            $shop->user_id = Auth::user()->id;
+        }
         $shop->save();
         return redirect('/shops/'. $shop->id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(\App\Shop $shop)
     {
         return view('shops.show', [
@@ -60,20 +76,19 @@ class ShopsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(\App\Shop $shop)
     {
-        if (Auth::user()->id == $shop->user_id) {
-            if ( Auth::user()->is_shop_subscription_user() ) {
+        if ((Auth::user()->id == $shop->user_id ) ||
+            (Auth::user() && Auth::user()->role == 'admin')) {
+            // 店舗に紐づいているか管理者の場合
+            if ((Auth::user()->is_shop_subscription_user())||
+                (Auth::user() && Auth::user()->role == 'admin')) {
+                // 有料ユーザーか管理者の場合
                 return view('shops.edit', [
                     'shop' => $shop
                 ]);
             } else if ( Auth::user()->role == 'shop' ) {
+                // 有料ユーザーでない場合
                 return view('shops.publicity', [
                     'shop' => $shop
                 ]);
@@ -87,35 +102,24 @@ class ShopsController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, \App\Shop $shop)
     {
-        // ログインユーザが店舗の管理ユーザの時のみブログを更新可能
-        if (Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user()) {
+        // 店舗に紐づいたユーザーで有料ユーザーの時 と 管理者ユーザーの時
+        if ((Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user()) ||
+            (Auth::user() && Auth::user()->role == 'admin')) {
             $this->validate($req, \App\Shop::$rules);
             $shop->fill($req->all())->save();
             return redirect('/shops/'. $shop->id);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(\App\Shop $shop)
     {
-        //
+        $shop->delete();
+
+        return back();
     }
 
-    // get /link_requests/{link_request}/connect
     public function connect(\App\LinkRequest $link_request)
     {
         return view('shops.connect', [
@@ -125,11 +129,10 @@ class ShopsController extends Controller
         ]);
     }
 
-    // post /link_requests/{link_request}/connect
     public function linkage(Request $req, \App\LinkRequest $link_request)
     {
-        // 申し込んできたユーザが申し込みユーザならば
-        if (\App\User::find($link_request->user_id)->is_shop_subscription_user()) {
+        // 申し込んできたユーザーが店舗ユーザーならば
+        if (\App\User::find($link_request->user_id)->role == "shop") {
             if ($req->accept == 'accept') {
                 \DB::beginTransaction();
                 try {

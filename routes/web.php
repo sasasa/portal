@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
   Route::resource('shops.link_requests', 'LinkRequestsController', ['except' => ['index']]);
+  Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
 });
 Route::resource('evaluations', 'EvaluationsController');
 
@@ -24,7 +25,7 @@ Route::resource('evaluations', 'EvaluationsController');
 Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
   Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
-  Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
+
   Route::get('shops/publicity', 'ShopsController@publicity');
 
 });
@@ -40,12 +41,11 @@ Route::group(['middleware' => ['auth', 'verified', 'can:admin-only']], function 
   Route::get('/shop_users/{shop_user}', 'ShopUsersController@show');
   Route::patch('/shop_users/{shop_user}', 'ShopUsersController@update');
 
+  Route::resource('shops', 'ShopsController', ['only' => ['index']]);
   Route::resource('articles', 'ArticlesController', ['except' => ['show']]);
 });
+
 Route::resource('articles', 'ArticlesController', ['only' => ['show']]);
-
-
-
 
 Route::redirect('/', '/p', 301);
 
@@ -57,7 +57,7 @@ Route::get('p/{prefecture}/{district}/{id}', 'PlaceController@shop')->name('shop
 Route::get('p/{prefecture}/{district}/{shop}/{evaluation}', 'EvaluationsController@reply_with_place');
 Route::get('shops/{shop}/{evaluation}', 'EvaluationsController@reply');
 
-Route::resource('shops', 'ShopsController', ['only' => ['index', 'show']]);
+Route::resource('shops', 'ShopsController', ['only' => ['show']]);
 
 Route::get('shops/{shop}/blogs/{blog}', 'BlogsController@show');
 

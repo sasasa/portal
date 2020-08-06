@@ -81,6 +81,8 @@ php artisan make:migration add_column_accept_state_to_link_requests_table --tabl
 
 
 php artisan make:mail LinkRequestNotification
+
+composer install
 ```
 
 

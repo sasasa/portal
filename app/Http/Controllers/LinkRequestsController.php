@@ -49,7 +49,7 @@ class LinkRequestsController extends Controller
 
     public function edit(\App\Shop $shop, \App\LinkRequest $link_request)
     {
-        if (Auth::user()->is_shop_subscription_user()) {
+        if (Auth::user()->role == 'shop') {
             return view('link_requests.edit', [
                 'shop' => $shop,
                 'link_request' => $link_request,
