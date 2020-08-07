@@ -83,7 +83,7 @@
   </tr>
   @endforeach
 </table>
-{{ $shops->links() }}
+{{ $shops->appends(request()->input())->links() }}
 @endsection
 
 @section('script')
