@@ -49,9 +49,9 @@ class BlogsController extends Controller
         // ログインユーザが店舗の管理ユーザ時で
         // 有料ユーザー時のみブログを作成可能
         if (Auth::user()->id == $shop->user_id && Auth::user()->is_shop_subscription_user() ) {
+            $this->validate($req, \App\Blog::$rules);
             \DB::beginTransaction();
             try {
-                $this->validate($req, \App\Blog::$rules);
                 $file = $req->upfile;
                 $file_name = basename($file->store('public'));
                 $blog = new \App\Blog();
