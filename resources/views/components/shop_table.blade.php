@@ -6,7 +6,8 @@
       @if ( is_null($shop->user) && is_null($shop->link_request) )
         <a href="/shops/{{$shop->id}}/link_requests/create">オーナー様はこちら</a>
       @endif
-      @if ( Auth::check() && $shop->user == Auth::user() )
+      @if ((Auth::check() && $shop->user == Auth::user()) ||
+          ( Auth::user() && Auth::user()->role == 'admin' ))
         <a href="/shops/{{$shop->id}}/edit">編集する</a>
       @endif
     </td>

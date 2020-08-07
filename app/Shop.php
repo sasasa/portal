@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\Shop
@@ -95,5 +96,25 @@ class Shop extends Model
     {
         $this->blog_id = $this->blogs()->pluck('id')->max();
         $this->save();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($shop) {
+            foreach ($shop->evaluations as $evaluation) {
+                $evaluation->children()->delete();
+                $evaluation->delete();
+            }
+
+            foreach ($shop->blogs as $blog) {
+                Storage::disk('public')->delete($blog->blog_path);
+                $blog->delete();
+            }
+            if ($shop->link_request) {
+                Storage::disk('public')->delete($shop->link_request->license_path);
+                $shop->link_request()->delete();
+            }
+        });
     }
 }
