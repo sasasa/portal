@@ -19,5 +19,16 @@ class UsersTableSeeder extends Seeder
             'email_verified_at' => now(),
             'role' => 'admin',
         ]);
+
+        for($i = 0; $i < 100; $i++) {
+            DB::table('users')->insert([
+                'name' => 'shop'. strval($i),
+                'email' => 'test'. strval($i). '@test.com',
+                'password' => bcrypt('hogehoge'),
+                'remember_token' => Str::random(10),
+                'email_verified_at' => now(),
+                'role' => 'shop',
+            ]);
+        }
     }
 }

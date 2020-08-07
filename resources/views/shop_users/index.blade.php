@@ -3,6 +3,20 @@
 
 @section('content')
 <h2>店舗ユーザー管理</h2>
+<form action="/shop_users" method="get" class="mb-5">
+  @csrf
+  <div class="form-group">
+    <label for="name">店舗ユーザーの{{__('validation.attributes.name')}}:</label>
+    <input type="text" id="name" name="name" value="{{$name}}" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="email">店舗ユーザーの{{__('validation.attributes.email')}}:</label>
+    <input type="text" id="email" name="email" value="{{$email}}" class="form-control">
+  </div>
+  <input type="submit" value="検索" class="btn btn-primary">
+</form>
+
 <table class="table">
   <tr>
     <th>{{__('validation.attributes.name')}}</th>
@@ -25,5 +39,5 @@
   </tr>
   @endforeach
 </table>
-{{ $shop_users->links() }}
+{{ $shop_users->appends(request()->input())->links() }}
 @endsection
