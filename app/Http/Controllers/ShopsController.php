@@ -36,9 +36,8 @@ class ShopsController extends Controller
                 $q->where('email', 'LIKE', "%".$req->email."%");
             });
         }
-        
         $shops = $shop_query->orderBy('created_at', 'desc')->paginate(10);
-        
+
         return view('shops.index', [
             'shops' => $shops,
             'shop_name' => $req->shop_name,

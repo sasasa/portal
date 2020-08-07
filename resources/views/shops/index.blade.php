@@ -8,7 +8,7 @@
     <label for="shop_name">{{__('validation.attributes.shop_name')}}:</label>
     <input type="text" id="shop_name" name="shop_name" value="{{$shop_name}}" class="form-control">
   </div>
-  
+
   <div class="form-group">
     <label for="user_name">店舗ユーザーの{{__('validation.attributes.name')}}:</label>
     <input type="text" id="user_name" name="user_name" value="{{$user_name}}" class="form-control">
