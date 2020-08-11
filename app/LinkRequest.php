@@ -35,6 +35,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\LinkRequest whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\LinkRequest whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $reason 申請拒否の理由
+ * @property string $accept_state 申請の状況
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LinkRequest whereAcceptState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\LinkRequest whereReason($value)
  */
 class LinkRequest extends Model
 {

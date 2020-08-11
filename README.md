@@ -83,6 +83,12 @@ php artisan make:migration add_column_accept_state_to_link_requests_table --tabl
 php artisan make:mail LinkRequestNotification
 
 composer install
+
+php artisan make:seeder BlogsTableSeeder
+php artisan db:seed --class=BlogsTableSeeder
+
+php artisan make:seeder ArticlesTableSeeder
+php artisan db:seed --class=ArticlesTableSeeder
 ```
 
 

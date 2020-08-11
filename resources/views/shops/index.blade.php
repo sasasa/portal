@@ -1,7 +1,8 @@
 @extends('layouts.app')
-@section('title', '店舗検索')
+@section('title', '店舗管理')
 
 @section('content')
+<h1>店舗管理</h1>
 <form action="/shops" method="get" class="mb-5">
   @csrf
   <div class="form-group">

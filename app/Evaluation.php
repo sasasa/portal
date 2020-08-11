@@ -27,6 +27,11 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Evaluation whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Evaluation whereWordOfMouth($value)
  * @mixin \Eloquent
+ * @property int|null $parent_id 親投稿のID
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Evaluation[] $children
+ * @property-read int|null $children_count
+ * @property-read \App\Evaluation|null $parent
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Evaluation whereParentId($value)
  */
 class Evaluation extends Model
 {

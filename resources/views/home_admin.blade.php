@@ -45,7 +45,7 @@
                     </ul>
                     <a href="/shop_users" class="btn btn-primary">店舗ユーザー管理</a>
                     <a href="/articles" class="btn btn-primary">記事管理</a>
-                    <a href="/shops" class="btn btn-primary">店舗検索</a>
+                    <a href="/shops" class="btn btn-primary">店舗管理</a>
                 </div>
             </div>
         </div>
