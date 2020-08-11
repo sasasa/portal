@@ -53,9 +53,12 @@ class CSVLoader extends Command
             }
         }
         foreach ($district_hash as $district => $pref) {
-            $this->line($district, $pref);
-            \App\Place::create(['prefecture' => $pref, 'district' => $district]);
-
+            \DB::table('places')->insert([
+                'prefecture' => $pref,
+                'district' => $district,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
 
         return 0;
