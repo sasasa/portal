@@ -49,13 +49,15 @@ class ShopLoader extends Command
         foreach ($fp as $line) {
             if ($fp->key() > 0 && !$fp->eof()) {
 
-                \App\Shop::create([
+                \DB::table('shops')->insert([
                     'shop_name' => $line[0],
                     'location' => $line[2],
                     'phone_number' => $line[3],
                     'shop_mail' => $line[5],
                     'url' => $line[6],
                     'description' => '',
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
 
                 // 店名
