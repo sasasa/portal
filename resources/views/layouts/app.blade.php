@@ -39,10 +39,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login_shop') }}">店舗{{ __('Login') }}</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login_admin') }}">管理者{{ __('Login') }}</a>
-                            </li>
                         @else
                             @if (Auth::user()->role == 'admin')
                                 <li class="nav-item">

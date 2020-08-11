@@ -14,7 +14,7 @@ class PlaceController extends Controller
     public function index()
     {
         return view('place.index', [
-            'articles' => \App\Article::orderBy('id', 'DESC')->take(10)->get(),
+            'articles' => \App\Article::orderBy('id', 'DESC')->get(),
         ]);
     }
 
