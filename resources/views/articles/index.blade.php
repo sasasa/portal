@@ -1,7 +1,22 @@
 @extends('layouts.app')
-@section('title', '記事一覧')
+@section('title', '記事管理')
 
 @section('content')
+<h1>記事管理</h1>
+<form action="/articles" method="get" class="mb-5">
+  @csrf
+  <div class="form-group">
+    <label for="article_title">{{__('validation.attributes.article_title')}}:</label>
+    <input type="text" id="article_title" name="article_title" value="{{$article_title}}" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="article_content">{{__('validation.attributes.article_content')}}:</label>
+    <input type="text" id="article_content" name="article_content" value="{{$article_content}}" class="form-control">
+  </div>
+  <input type="submit" value="検索" class="btn btn-primary">
+</form>
+
 <a href="/articles/create" class="btn btn-primary mb-1">記事を書く</a>
 <table class="table">
   <tr>
@@ -27,5 +42,5 @@
     </tr>
   @endforeach
 </table>
-{{ $articles->links() }}
+{{ $articles->appends(request()->input())->links() }}
 @endsection
