@@ -86,7 +86,7 @@
 </div>
 
 <div>
-  <h2>記事一覧（最新10件）</h2>
+  <h2>記事一覧</h2>
     <ul>
       @foreach ($articles as $article)
         <li>
