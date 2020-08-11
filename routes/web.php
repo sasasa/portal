@@ -17,6 +17,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
   Route::get('home', 'HomeController@index')->name('home');
   Route::resource('shops.link_requests', 'LinkRequestsController', ['except' => ['index']]);
   Route::resource('shops', 'ShopsController', ['except' => ['index', 'show']]);
+
+  Route::delete('shops/{shop}/blogs/{blog}', 'BlogsController@destroy');
 });
 Route::resource('evaluations', 'EvaluationsController');
 
@@ -24,7 +26,7 @@ Route::resource('evaluations', 'EvaluationsController');
 // 店舗のみ
 Route::group(['middleware' => ['auth', 'verified', 'can:shop-only']], function () {
   Route::get('home_shop', 'HomeShopController@index')->name('home_shop');
-  Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show']]);
+  Route::resource('shops.blogs', 'BlogsController', ['except' => ['index', 'show', 'destroy']]);
 
   Route::get('shops/publicity', 'ShopsController@publicity');
 
