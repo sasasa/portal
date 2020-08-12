@@ -1,12 +1,24 @@
 @extends('layouts.app')
-@section('title', $prefecture. $district. 'の'. $shop->shop_name)
+@section('title', $prefecture. $district. 'の整体院、'. $shop->shop_name)
+@section('description', $prefecture. $district. 'の整体院、'. $shop->shop_name)
 
 @section('content')
+<h1>{{$prefecture}}{{$district}}の整体院、{{$shop->shop_name}}</h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    <li class="breadcrumb-item"><a href="/p/{{$prefecture}}">{{$prefecture}}の整体院、一覧</a></li>
+    <li class="breadcrumb-item"><a href="/p/{{$prefecture}}/{{$district}}">{{$prefecture}}{{$district}}の整体院、一覧</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{$prefecture}}{{$district}}の整体院、{{$shop->shop_name}}</li>
+  </ol>
+</nav>
 
 @include('components.shop_table')
+<h2>{{$shop->shop_name}}の地図</h2>
 @include('components.gmap')
 
 <div class="mt-5">
+<h2>{{$shop->shop_name}}の口コミ</h2>
 <ul>
 @forelse ($shop->evaluations as $evaluation)
   <li>{{$evaluation->word_of_mouth}}（{{$evaluation->format_date}}）
