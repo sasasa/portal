@@ -89,6 +89,14 @@ php artisan db:seed --class=BlogsTableSeeder
 
 php artisan make:seeder ArticlesTableSeeder
 php artisan db:seed --class=ArticlesTableSeeder
+
+
+composer require --dev laravel/dusk
+php artisan dusk:install
+php artisan dusk:make LoginTest
+php artisan serve --env=dusk.local
+php artisan dusk
+php artisan dusk --filter 'PageTest'
 ```
 
 
