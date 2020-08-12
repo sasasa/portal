@@ -1,12 +1,16 @@
 @extends('layouts.app')
-@section('title', $shop->shop_name)
+@section('title', '整体院、'. $shop->shop_name)
+@section('description', '整体院、'. $shop->shop_name)
 
 @section('content')
+<h1>整体院、{{$shop->shop_name}}</h1>
 
 @include('components.shop_table')
+<h2>{{$shop->shop_name}}の地図</h2>
 @include('components.gmap')
 
 <div class="mt-5">
+<h2>{{$shop->shop_name}}の口コミ</h2>
   <ul>
     @forelse ($shop->evaluations as $evaluation)
       <li>{{$evaluation->word_of_mouth}}（{{$evaluation->format_date}}）

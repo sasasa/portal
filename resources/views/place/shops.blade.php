@@ -1,13 +1,24 @@
 @extends('layouts.app')
-@section('title', $prefecture. $district. 'の整体院一覧')
+@section('title', $prefecture. $district. 'の整体院、一覧')
+@section('description', $prefecture. $district. 'の整体院、一覧')
 
 @section('content')
+<h1>{{$prefecture}}{{$district}}の整体院、一覧</h1>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    <li class="breadcrumb-item"><a href="/p/{{$prefecture}}">{{$prefecture}}の整体院、一覧</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{$prefecture}}{{$district}}の整体院、一覧</li>
+  </ol>
+</nav>
 <table class="table">
-  @foreach ($shops as $shop)
+@foreach ($shops as $shop)
   <tr>
     <th>{{__('validation.attributes.shop_name')}}</th>
     <td>
-      <a href="/p/{{$prefecture}}/{{$district}}/{{$shop->id}}">{{ $shop->shop_name }}</a>
+      <h2 class="h6">
+        <a href="/p/{{$prefecture}}/{{$district}}/{{$shop->id}}">{{ $shop->shop_name }}</a>
+      </h2>
     </td>
   </tr>
   <tr>

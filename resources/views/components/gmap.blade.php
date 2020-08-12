@@ -1,4 +1,4 @@
-<div id="my_map" style="width: 600px; height: 600px"></div>
+<div id="my_map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_KEY', 'apikey')}}&callback=initMapWithAddress" async defer></script>
 <script>
   var _my_address = '{{$shop->location}}';

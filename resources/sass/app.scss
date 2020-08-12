@@ -23,3 +23,18 @@ footer {
 .inline_form {
   display: inline;
 }
+@media screen and (max-width: 768px) {
+  footer {
+    display: block;
+  }
+  .footer_nav {
+    display: block;
+  }
+}
+#my_map {
+  max-width: 600px;
+  height: 600px;
+}
+.pagination {
+  flex-wrap: wrap;
+}
