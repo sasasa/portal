@@ -74,10 +74,11 @@ class PageTest extends DuskTestCase
                     ->assertSee('円山中央鍼灸整骨院')
                     ->assertSee('オーナー様はこちら')
                     ->assertSee('口コミは存在しません。')
-                    ->type('word_of_mouth', '')
+                    // ->type('word_of_mouth', '')
                     ->press('.btn.btn-primary')
                     ->assertSee('内容は必ず指定してください。')
-                    ->type('word_of_mouth', 'テストの口コミをします')
+                    // ->type('word_of_mouth', 'テストの口コミをします')
+                    ->value('textarea[name="word_of_mouth"]','テストの口コミをします')
                     ->press('.btn.btn-primary')
                     ->assertSee('テストの口コミをします');
         });
