@@ -100,6 +100,7 @@ php artisan dusk:make LoginTest
 php artisan serve --env=dusk.local
 php artisan dusk
 php artisan dusk --filter 'PageTest'
+php artisan dusk --filter 'LoginTest'
 ```
 
 
