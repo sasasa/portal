@@ -10,12 +10,13 @@ class LoginTest extends DuskTestCase
 {
     // use DatabaseMigrations;
 
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-    //     $this->artisan('db:seed');
-    // }
-
+    public function setUp(): void
+    {
+        parent::setUp();
+        // $this->artisan('db:seed');
+        \App\Shop::where('shop_name', '佐伯整骨院')->delete();
+        
+    }
     /**
      * A Dusk test example.
      *
@@ -59,6 +60,7 @@ class LoginTest extends DuskTestCase
                     // 非課金ユーザー
                     ->type('email', 'masaakisaeki2@gmail.com')
                     ->type('password', 'hogehoge')
+                    ->pause(500)
                     ->press('ログイン')
                     ->assertPathIs('/home_shop')
                     ->clickLink('店舗を新規登録する')
@@ -75,10 +77,12 @@ class LoginTest extends DuskTestCase
                     ->assertSee('北海道札幌市中央区北島５－６－７')
                     ->assertSee('090-123-4567')
                     // 非課金ユーザーがその後、編集できないこと
+                    ->pause(500)
                     ->clickLink('編集する')
                     ->assertSee('有料会員になれば以下の事が出来るようになります')
                     ->back()
                     // 非課金ユーザーがその後、ブログを書けないこと
+                    ->pause(500)
                     ->clickLink('記事を書く')
                     ->assertSee('有料会員になれば以下の事が出来るようになります')
                     ->back()
@@ -176,14 +180,19 @@ class LoginTest extends DuskTestCase
                     ->type('password', 'hogehoge')
                     ->press('ログイン')
                     ->assertPathIs('/home_shop')
-                    ->visit('/shops/450')
+                    ->visit('/shops/452')
                     ->clickLink('オーナー様はこちら')
-                    ->assertPathIs('/shops/450/link_requests/create')
+                    ->assertPathIs('/shops/452/link_requests/create')
 
                     ->attach('upfile', 'licence.png')
                     ->pause(500)
                     ->press('申請する')
-                    ->assertSee('申請中です。もうしばらくお待ちください。');
+                    ->assertSee('申請中です。もうしばらくお待ちください。')
+
+                    // ログアウト
+                    ->clickLink('店舗ユーザー')
+                    ->clickLink('ログアウト')
+                    ->assertPathIs('/p');
         });
     }
 }

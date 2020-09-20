@@ -11,6 +11,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('users')->truncate();
         DB::table('users')->insert([
             'name' => 'admin',
             'email' => 'masaakisaeki@gmail.com',
@@ -21,8 +22,19 @@ class UsersTableSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'admin',
+            'name' => '店舗ユーザー',
             'email' => 'masaakisaeki2-1@gmail.com',
+            'is_subscription' => true,
+            'password' => bcrypt('hogehoge'),
+            'remember_token' => Str::random(10),
+            'email_verified_at' => now(),
+            'role' => 'shop',
+        ]);
+
+        DB::table('users')->insert([
+            'name' => '店舗ユーザー',
+            'email' => 'masaakisaeki2@gmail.com',
+            'is_subscription' => false,
             'password' => bcrypt('hogehoge'),
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),

@@ -10,11 +10,11 @@ class PageTest extends DuskTestCase
 {
     // use DatabaseMigrations;
 
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-    //     $this->artisan('db:seed');
-    // }
+    public function setUp(): void
+    {
+        parent::setUp();
+        // $this->artisan('db:seed');
+    }
     
     // public function testTopPage()
     // {
@@ -78,8 +78,8 @@ class PageTest extends DuskTestCase
                     ->assertSee('北海道の整体院、一覧')
                     ->clickLink('札幌市中央区')
                     ->assertSee('北海道札幌市中央区の整体院、一覧')
-                    ->clickLink('円山中央鍼灸整骨院')
-                    ->assertSee('円山中央鍼灸整骨院')
+                    ->clickLink('大湊厚生療院')
+                    ->assertSee('大湊厚生療院')
                     ->assertSee('オーナー様はこちら')
                     ->assertSee('口コミは存在しません。')
                     ->pause(500)
