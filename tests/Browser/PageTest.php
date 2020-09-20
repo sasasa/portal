@@ -8,6 +8,14 @@ use Tests\DuskTestCase;
 
 class PageTest extends DuskTestCase
 {
+    // use DatabaseMigrations;
+
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->artisan('db:seed');
+    // }
+    
     // public function testTopPage()
     // {
     //     $this->browse(function (Browser $browser) {

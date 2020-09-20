@@ -8,6 +8,14 @@ use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
+    // use DatabaseMigrations;
+
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->artisan('db:seed');
+    // }
+
     /**
      * A Dusk test example.
      *

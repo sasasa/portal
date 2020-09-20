@@ -14,11 +14,15 @@ class ArticlesTableSeeder extends Seeder
     {
         // 前提としてstorage/app/public内にdog.jpgが存在していること
         for($i = 1; $i <= 100; $i++) {
-            if ( Storage::disk('public')->exists('dog.jpg') ) {
-                Storage::disk('public')->copy('dog.jpg', 'dog'. $i. '.jpg');
-            } else {
-                throw new Exception('storage/app/public内にdog.jpgが存在しないのでSeedingを終了する');
+            
+            if ( !Storage::disk('public')->exists('dog1.jpg') ) {
+                if ( Storage::disk('public')->exists('dog.jpg') ) {
+                    Storage::disk('public')->copy('dog.jpg', 'dog'. $i. '.jpg');
+                } else {
+                    throw new Exception('storage/app/public内にdog.jpgが存在しないのでSeedingを終了する');
+                }
             }
+
 
             DB::table('articles')->insert([
                 'article_title' => '管理者による記事【その'. $i. '】',

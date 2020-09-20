@@ -90,6 +90,9 @@ php artisan db:seed --class=BlogsTableSeeder
 php artisan make:seeder ArticlesTableSeeder
 php artisan db:seed --class=ArticlesTableSeeder
 
+php artisan make:seeder PlacesTableSeeder
+php artisan make:seeder ShopsTableSeeder
+
 
 composer require --dev laravel/dusk
 php artisan dusk:install
